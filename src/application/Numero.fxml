@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="299.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NumeroController">
+   <top>
+      <Label text="Indovina il numero" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <Label text="Partita" />
+                  <Button fx:id="ButtonNuova" mnemonicParsing="false" onAction="#DoGame" prefHeight="25.0" prefWidth="54.0" text="Nuova" />
+                  <Label alignment="CENTER_RIGHT" text="Tentativi">
+                     <HBox.margin>
+                        <Insets left="150.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextArea fx:id="TentativiText" prefHeight="37.0" prefWidth="236.0" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Tentativo" />
+                  <TextField fx:id="InserimentoText" disable="true" promptText="Inserisci" />
+                  <Button fx:id="ButtonProva" disable="true" mnemonicParsing="false" onAction="#DoTry" text="Prova" />
+               </children>
+            </HBox>
+            <TextArea fx:id="TextResult" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
