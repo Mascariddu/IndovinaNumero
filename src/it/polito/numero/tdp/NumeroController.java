@@ -1,4 +1,4 @@
-package application;
+package it.polito.numero.tdp;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -8,17 +8,26 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import it.polito.model.numero.tdp.NumeroModel;;
 
 public class NumeroController {
 
+	private NumeroModel model;
 	private int nMax = 100;
-	private int tMax = 10;
+	private int tMax = 8;
 	private int numero;
 	private int tentativiResidui = tMax;
 	private int tentativo = 1;
-	private List<Integer> numeri;
 	
-    @FXML
+    public NumeroModel getModel() {
+		return model;
+	}
+
+	public void setModel(NumeroModel model) {
+		this.model = model;
+	}
+
+	@FXML
     private ResourceBundle resources;
 
     @FXML
@@ -63,23 +72,6 @@ public class NumeroController {
     	boolean h = false;
     	if(!InserimentoText.getText().equals("")) {
     	this.mio = Integer.parseInt(InserimentoText.getText());
-    	if(numeri !=  null) {
-    	for(int n : numeri) {
-    		if(n == mio) {
-    			h = true;
-    			this.TextResult.appendText("Numero già inserito");
-    			tentativiResidui--;
-    			if(tentativiResidui == 0) {
-        			this.TextResult.appendText("Tentativi terminati, HAI PERSO! Il numero era "+this.numero+"\n");
-        			this.ButtonNuova.setDisable(false);
-        			this.ButtonProva.setDisable(true);
-        			this.InserimentoText.setDisable(true);
-        			this.TentativiText.setDisable(false);
-        		}
-    		}
-    	}
-    	}
-    	if(h == false) {
     	if(mio > this.numero) {
     		TextResult.appendText("Numero troppo ALTO \n");
     		this.tentativiResidui--;
@@ -131,5 +123,6 @@ public class NumeroController {
         assert ButtonProva != null : "fx:id=\"ButtonProva\" was not injected: check your FXML file 'Numero.fxml'.";
         assert TextResult != null : "fx:id=\"TextResult\" was not injected: check your FXML file 'Numero.fxml'.";
 
+       // Model = new Model();
     }
 }
