@@ -95,6 +95,8 @@ public class NumeroController {
     	if(!model.isInGioco()) {
     		if(risultato != 0) {
     			TextResult.appendText("Hai perso, il numero era "+model.getNumero()+"\n");
+    			this.ButtonNuova.setDisable(false);
+    			this.ButtonProva.setDisable(true);
     		}
     	}
     }
