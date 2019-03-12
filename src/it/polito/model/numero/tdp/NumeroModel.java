@@ -27,6 +27,10 @@ public class NumeroModel {
 		inGioco = false;
 	}
 	
+	public int gettMax() {
+		return tMax;
+	}
+
 	public void newGame() {
 		inGioco = true;
 		this.numero = (int)(Math.random()* nMax + 1);

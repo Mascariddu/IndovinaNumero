@@ -12,15 +12,16 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			
-			NumeroModel model = new NumeroModel();
-			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader = new FXMLLoader((getClass().getResource("Numero.fxml")));
 			
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Numero.fxml"));
-			NumeroController controller = loader.getController();
-			controller.setModel(model);
-			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			NumeroModel model = new NumeroModel();
+			NumeroController controller = (NumeroController)loader.getController();
+			controller.setModel(model);
+			
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

@@ -13,11 +13,6 @@ import it.polito.model.numero.tdp.NumeroModel;;
 public class NumeroController {
 
 	private NumeroModel model;
-	private int nMax = 100;
-	private int tMax = 8;
-	private int numero;
-	private int tentativiResidui = tMax;
-	private int tentativo = 1;
 	
     public NumeroModel getModel() {
 		return model;
@@ -54,64 +49,53 @@ public class NumeroController {
     void DoGame(ActionEvent event) {
     	
     	this.TextResult.clear();
-    	this.tentativiResidui = tMax;
     	this.ButtonNuova.setDisable(true);
     	this.TentativiText.setDisable(true);
-    	this.numero = (int)(Math.random()* nMax +1);
-    	this.TentativiText.clear();
-    	this.TentativiText.appendText(Integer.toString(tentativiResidui));
+    	this.TentativiText.setText(Integer.toString(model.gettMax()));
     	this.ButtonProva.setDisable(false);
     	this.InserimentoText.setDisable(false);
+    	this.InserimentoText.clear();
     	
+    	model.newGame();
     }
 
     @FXML
     void DoTry(ActionEvent event) {
     	
+    	this.InserimentoText.clear();
     	try {
-    	boolean h = false;
-    	if(!InserimentoText.getText().equals("")) {
     	this.mio = Integer.parseInt(InserimentoText.getText());
-    	if(mio > this.numero) {
-    		TextResult.appendText("Numero troppo ALTO \n");
-    		this.tentativiResidui--;
-    		this.InserimentoText.clear();
-    		this.TentativiText.clear();
-    		this.TentativiText.appendText(Integer.toString(tentativiResidui));
-    		if(tentativiResidui == 0) {
-    			this.TextResult.appendText("Tentativi terminati, HAI PERSO! Il numero era "+this.numero+"\n");
-    			this.ButtonNuova.setDisable(false);
-    			this.ButtonProva.setDisable(true);
-    			this.InserimentoText.setDisable(true);
-    			this.TentativiText.setDisable(false);
-    		}
-    	} else if( mio < this.numero) {
-    		TextResult.appendText("Numero troppo BASSO \n");
-    		this.tentativiResidui--;
-    		this.InserimentoText.clear();
-    		this.TentativiText.clear();
-    		this.TentativiText.appendText(Integer.toString(tentativiResidui));
-    		if(tentativiResidui == 0) {
-    			this.TextResult.appendText("Tentativi terminati, HAI PERSO! Il numero era "+this.numero+"\n");
-    			this.ButtonNuova.setDisable(false);
-    			this.ButtonProva.setDisable(true);
-    			this.InserimentoText.setDisable(true);
-    			this.TentativiText.setDisable(false);
-    		}
-    	} else {
-    		TextResult.appendText("Numero TROVATO \n");
-    		this.InserimentoText.clear();
-    		this.TentativiText.clear();
-    		this.TentativiText.appendText(Integer.toString(tentativiResidui));
+    	}catch (NumberFormatException e) {
+    		e.printStackTrace();
+    	}
+    		
+    	if(!model.TentativoValido(mio)) {
+    		TextResult.appendText("Tentativo non valido");
+    		return;
+    	}
+    	
+    	int risultato = model.newTentativo(mio);
+    	
+    	if(risultato == 0) {
+    		TextResult.appendText("Numero TROVATO in "+model.getTentativiFatti()+" tentativi \n");
     		this.ButtonNuova.setDisable(false);
 			this.ButtonProva.setDisable(true);
-			this.InserimentoText.setDisable(true);
-			this.TentativiText.setDisable(false);
+    	} else if(risultato <0){
+    		this.TextResult.appendText("Tentativi terminati, HAI PERSO! Il numero era "+model.getNumero()+"\n");
+			this.ButtonNuova.setDisable(false);
+			this.ButtonProva.setDisable(true);
+    	} else {
+    		this.TextResult.appendText("Tentativi terminati, HAI PERSO! Il numero era "+model.getNumero()+"\n");
+			this.ButtonNuova.setDisable(false);
+			this.ButtonProva.setDisable(true);
     	}
-    	}
-    	}
-    	} catch (NumberFormatException e) {
-    		e.printStackTrace();
+    	
+    	TentativiText.setText(Integer.toString((model.gettMax()) - model.getTentativiFatti()));
+    
+    	if(!model.isInGioco()) {
+    		if(risultato != 0) {
+    			TextResult.appendText("Hai perso, il numero era "+model.getNumero()+"\n");
+    		}
     	}
     }
 
@@ -122,7 +106,5 @@ public class NumeroController {
         assert InserimentoText != null : "fx:id=\"InserimentoText\" was not injected: check your FXML file 'Numero.fxml'.";
         assert ButtonProva != null : "fx:id=\"ButtonProva\" was not injected: check your FXML file 'Numero.fxml'.";
         assert TextResult != null : "fx:id=\"TextResult\" was not injected: check your FXML file 'Numero.fxml'.";
-
-       // Model = new Model();
     }
 }
